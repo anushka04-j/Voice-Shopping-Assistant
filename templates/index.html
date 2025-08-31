@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Voice Shopping Assistant</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Inter,system-ui,Arial,sans-serif}
+    .card-hover{transition:transform .2s, box-shadow .2s}
+    .card-hover:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    .floating-mic{position:fixed; right:1rem; bottom:1rem}
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Header -->
+  <header class="bg-white shadow-sm sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-black text-white grid place-items-center rounded-lg font-extrabold">VS</div>
+        <span class="font-extrabold text-xl">VoiceShop</span>
+      </div>
+      <div class="flex-1 mx-6 hidden md:flex">
+        <input id="search" class="w-full bg-gray-100 rounded-xl px-4 py-2 outline-none" placeholder="Search products e.g. organic apples, almond milk">
+      </div>
+      <div class="flex items-center space-x-3">
+        <select id="lang" class="bg-gray-100 rounded-xl px-3 py-2">
+          <option value="en-US" selected>English</option>
+          <option value="hi-IN">हिन्दी</option>
+        </select>
+        <button id="open-list" class="px-4 py-2 rounded-xl bg-black text-white">My List</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="bg-gradient-to-r from-pink-50 to-blue-50">
+    <div class="max-w-7xl mx-auto px-4 py-10 grid md:grid-cols-2 gap-6 items-center">
+      <div>
+        <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Shop with your voice.</h1>
+        <p class="mt-3 text-gray-600">Say “Add 2 apples”, “Remove milk”, or “Find organic oats”. Your smart list updates instantly.</p>
+        <div class="mt-5 flex space-x-3">
+          <button onclick="startRecognition()" class="px-5 py-3 rounded-xl bg-black text-white">🎤 Start Speaking</button>
+          <button onclick="document.getElementById('demo-commands').classList.toggle('hidden')" class="px-5 py-3 rounded-xl bg-white border">See examples</button>
+        </div>
+        <ul id="demo-commands" class="hidden list-disc pl-6 mt-4 text-gray-700">
+          <li>Add 2 bananas</li>
+          <li>Remove bread</li>
+          <li>Find organic apples</li>
+        </ul>
+      </div>
+      <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop" class="rounded-2xl shadow-lg" alt="shopping banner">
+    </div>
+  </section>
+
+  <!-- Product grid -->
+  <main class="max-w-7xl mx-auto px-4 pb-24">
+    <h2 class="text-xl font-bold mb-4">Popular Picks</h2>
+    <div id="grid" class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+  </main>
+
+  <!-- Floating mic -->
+  <button class="floating-mic px-5 py-4 rounded-full shadow-lg bg-black text-white" onclick="startRecognition()">
+    🎤 Speak
+  </button>
+
+  <!-- Drawer / List -->
+  <div id="drawer" class="fixed inset-0 bg-black bg-opacity-30 hidden z-40">
+    <div class="absolute right-0 top-0 h-full w-full sm:w-96 bg-white shadow-2xl p-6 overflow-y-auto">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xl font-bold">My Shopping List</h3>
+        <button onclick="closeList()" class="text-gray-500">✖</button>
+      </div>
+      <div id="toast" class="mt-3 text-sm text-green-600"></div>
+      <div id="list" class="mt-4"></div>
+      <div id="suggestions" class="mt-6 text-sm text-blue-600"></div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
